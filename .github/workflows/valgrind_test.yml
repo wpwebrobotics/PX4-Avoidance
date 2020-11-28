@@ -41,18 +41,18 @@ jobs:
         catkin config --cmake-args -DCMAKE_BUILD_TYPE=Release -DCATKIN_ENABLE_TESTING=False -DDISABLE_SIMULATION=ON
         catkin build -j$(nproc) -l$(nproc) avoidance local_planner global_planner
     - name: Run Tests
-      working-directory: $HOME/catkin_ws/src
+      working-directory:
       run: |
+        cd $HOME/catkin_ws/src
         catkin config --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCATKIN_ENABLE_TESTING=True
         catkin build -j$(nproc) -l$(nproc) avoidance local_planner global_planner --no-deps -v -i --catkin-make-args tests
         source $HOME/catkin_ws/devel/setup.bash
         status=0 && for f in $HOME/catkin_ws/devel/lib/*/*-test; do valgrind --leak-check=full --track-origins=yes --error-exitcode=1 $f || exit 1; done
-        (roscore &) && for f in ~/catkin_ws/devel/lib/*/*-test-roscore; do valgrind --leak-check=full --track-origins=yes --error-exitcode=1 --suppressions=local_planner/test/valgrind_suppressions.sup $f || status=1; done && (if (( $status > 0 )); then exit $status; fi)
+        (roscore &) && for f in $HOME/catkin_ws/devel/lib/*/*-test-roscore; do valgrind --leak-check=full --track-origins=yes --error-exitcode=1 --suppressions=$HOME/catkin_ws/src/PX4-Avoidance/local_planner/test/valgrind_suppressions.sup $f || status=1; done && (if (( $status > 0 )); then exit $status; fi)
       shell: bash
     - name: Upload Coverage
-      working-directory: $HOME/catkin_ws/src/avoidance
+      working-directory: $HOME/catkin_ws/src/PX4-Avoidance
       run: |
-        cd $HOME/catkin_ws/src
         apt-get install -y lcov
         gem install coveralls-lcov
         tools/generate_coverage.sh
