@@ -39,6 +39,7 @@ enum class NavigationState {
   offboard,
   auto_loiter,
   none,
+  altitude,
 };
 
 enum class MavCommand {

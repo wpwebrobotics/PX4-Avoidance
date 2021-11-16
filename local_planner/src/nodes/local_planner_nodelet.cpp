@@ -225,6 +225,8 @@ void LocalPlannerNodelet::stateCallback(const mavros_msgs::State& msg) {
     nav_state_ = NavigationState::auto_loiter;
   } else if (msg.mode == "OFFBOARD") {
     nav_state_ = NavigationState::offboard;
+  } else if (msg.mode == "ALTCTL") {
+    nav_state_ = NavigationState::altitude;
   } else {
     nav_state_ = NavigationState::none;
   }

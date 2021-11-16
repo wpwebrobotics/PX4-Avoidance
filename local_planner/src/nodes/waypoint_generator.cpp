@@ -431,7 +431,7 @@ bool WaypointGenerator::isAltitudeChange() {
   }
 
   const bool offboard_goal_altitude_not_reached = nav_state_ == NavigationState::offboard && !reach_altitude_offboard_;
-  const bool auto_takeoff = nav_state_ == NavigationState::auto_takeoff ||
+  const bool auto_takeoff = (nav_state_ == NavigationState::auto_takeoff || nav_state_ == NavigationState::altitude) ||
                             (nav_state_ == NavigationState::mission && is_takeoff_waypoint_) ||
                             (nav_state_ == NavigationState::auto_rtl && rtl_climb);
   auto_land_ = nav_state_ == NavigationState::auto_land ||
