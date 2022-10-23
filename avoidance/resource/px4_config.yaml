@@ -65,7 +65,7 @@ local_position:
   tf:
     send: true
     frame_id: "local_origin"
-    child_frame_id: "fcu"
+    child_frame_id: "base_link"
     send_fcu: false
 
 # param
